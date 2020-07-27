@@ -20,11 +20,12 @@ class Node(BaseModel):
     gen_length: int = 4
 
     @validator("v", "h", "f", "b")
-    def valid_chain(cls, v):
+    def valid_chain(cls, v: str) -> str:
         if DNA_VALID_REGEX.search(v):
             raise ValueError("Invalid DNA sequence")
         return v.upper()
 
 
-class DNASequence(BaseModel):
-    pass
+class DNASequence(str):
+    def validate(self) -> bool:
+        return not DNA_VALID_REGEX.search(self)
