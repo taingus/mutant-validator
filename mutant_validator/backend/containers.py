@@ -19,6 +19,18 @@ class Node(BaseModel):
     skip_h_check: bool = False
 
     gen_length: int = 4
+    v_len: int = 0
+    h_len: int = 0
+
+    def is_mutant(self) -> bool:
+        return any([self._mutant_in_horizontal()])
+
+    def _mutant_in_horizontal(self) -> bool:
+        if not self.skip_h_check:
+            for pos in range(0, (self.h_len - 3)):
+                if self.h[pos] == self.h[pos + 1] == self.h[pos + 2] == self.h[pos + 3]:
+                    return True
+        return False
 
 
 class DNASequence(str):
