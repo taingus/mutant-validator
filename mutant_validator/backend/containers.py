@@ -1,4 +1,5 @@
 import re
+from typing import List
 
 from pydantic import (
     BaseModel,
@@ -19,13 +20,17 @@ class Node(BaseModel):
 
     gen_length: int = 4
 
-    @validator("v", "h", "f", "b")
-    def valid_chain(cls, v: str) -> str:
-        if DNA_VALID_REGEX.search(v):
-            raise ValueError("Invalid DNA sequence")
-        return v.upper()
-
 
 class DNASequence(str):
     def validate(self) -> bool:
         return not DNA_VALID_REGEX.search(self)
+
+
+class DNA(BaseModel):
+    dna: List[str]
+
+    @validator("dna", each_item=True)
+    def valid_chain(cls, v: str) -> str:
+        if DNA_VALID_REGEX.search(v):
+            raise ValueError("Invalid DNA sequence")
+        return v.upper()
