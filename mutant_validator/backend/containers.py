@@ -1,5 +1,9 @@
-from pydantic import BaseModel, validator
 import re
+
+from pydantic import (
+    BaseModel,
+    validator,
+)
 
 DNA_VALID_REGEX = re.compile(r"[^ATCG]+?", re.IGNORECASE)
 
@@ -20,3 +24,7 @@ class Node(BaseModel):
         if DNA_VALID_REGEX.search(v):
             raise ValueError("Invalid DNA sequence")
         return v.upper()
+
+
+class DNASequence(BaseModel):
+    pass

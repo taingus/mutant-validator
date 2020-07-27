@@ -1,4 +1,5 @@
 from pytest import raises
+
 from mutant_validator.backend.containers import Node
 
 
