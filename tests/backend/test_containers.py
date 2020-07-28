@@ -1,9 +1,9 @@
 from pytest import raises
 
 from mutant_validator.backend.containers import (
-    Node,
     DNA,
     DNASequence,
+    Node,
 )
 
 
@@ -36,6 +36,20 @@ def test_dna_fails_with_invalid_DNA_sequence():
         DNA(dna=["aaaa", "invaliddnasequence"])
 
     assert result.value.errors()[0]["msg"] == "Invalid DNA sequence"
+
+
+def test_node_with_horizontal_string_too_short():
+    string = "aaa"
+    node = Node(h=string)
+
+    assert node.is_mutant() is False
+
+
+def test_node_with_horizontal_string_long_enough_found():
+    string = "aaaa"
+    node = Node(h=string)
+
+    assert node.is_mutant() is True
 
 
 def test_node_with_horizontal_string_found():

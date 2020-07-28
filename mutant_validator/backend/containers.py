@@ -6,7 +6,7 @@ from pydantic import (
     validator,
 )
 
-DNA_VALID_REGEX = re.compile(r"[^ATCG]+?", re.IGNORECASE)
+DNA_VALID_REGEX = re.compile(r"[^ACGT]+?", re.IGNORECASE)
 
 
 class Node(BaseModel):
@@ -22,20 +22,19 @@ class Node(BaseModel):
 
     def is_mutant(self) -> bool:
         return any(
-            [
+            (
                 self._check_line(self.v, self.skip_v_check),
                 self._check_line(self.h, self.skip_h_check),
                 self._check_line(self.f),
                 self._check_line(self.b),
-            ]
+            )
         )
 
     def _check_line(self, line: str, skip: bool = False) -> bool:
-        if not skip:
-            for pos in range(0, (len(line) - (self.gen_length - 1))):
-                if line[pos] == line[pos + 1] == line[pos + 2] == line[pos + 3]:
-                    return True
-        return False
+        return not skip and any(
+            line[pos] == line[pos + 1] == line[pos + 2] == line[pos + 3]
+            for pos in range(0, (len(line) - (self.gen_length - 1)))
+        )
 
 
 class DNASequence(str):

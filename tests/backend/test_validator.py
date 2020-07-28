@@ -21,6 +21,14 @@ def test_valid_DNA_sequence_horizontal_not_mutant():
     assert is_mutant(["TGTAAAT"]) is False
 
 
+def test_valid_DNA_sequence_horizontal_too_short():
+    assert is_mutant(["T"]) is False
+
+
+def test_valid_DNA_sequence_horizontal_long_enough():
+    assert is_mutant(["TTTT"]) is True
+
+
 def test_valid_DNA_sequence_vertical_first_column(generate_vertical_dna):
     assert is_mutant(generate_vertical_dna(column=1)) is True
 
