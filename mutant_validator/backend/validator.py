@@ -19,7 +19,7 @@ def is_mutant(sequence: Union[List[str], DNA]):
     for pos, line in enumerate(sequence.dna):
         f_line = "".join(
             [
-                sequence.dna[x][pos + x]
+                sequence.dna[pos + x][x]
                 for x in range(0, v_len - pos)
                 if pos + x <= h_len <= v_len
             ]
@@ -33,7 +33,7 @@ def is_mutant(sequence: Union[List[str], DNA]):
         v_line = "".join([sequence.dna[x][col] for x in range(0, v_len)])
         f_line = "".join(
             [
-                sequence.dna[col + x][x]
+                sequence.dna[x][col + x]
                 for x in range(0, h_len - col)
                 if col + x <= h_len <= v_len
             ]
