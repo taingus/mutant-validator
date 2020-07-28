@@ -38,6 +38,20 @@ def test_dna_fails_with_invalid_DNA_sequence():
     assert result.value.errors()[0]["msg"] == "Invalid DNA sequence"
 
 
+def test_dna_fails_with_different_length_sequences():
+    with raises(ValueError) as result:
+        DNA(dna=["aaaa", "aaaaaa"])
+
+    assert result.value.errors()[0]["msg"] == "Invalid DNA sequence"
+
+
+def test_dna_fails_with_empty_sequence():
+    with raises(ValueError) as result:
+        DNA(dna=[])
+
+    assert result.value.errors()[0]["msg"] == "Empty DNA sequence"
+
+
 def test_node_with_horizontal_string_too_short():
     string = "aaa"
     node = Node(h=string)

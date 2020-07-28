@@ -45,8 +45,14 @@ class DNASequence(str):
 class DNA(BaseModel):
     dna: List[str]
 
-    @validator("dna", each_item=True)
-    def valid_chain(cls, v: str) -> str:
-        if DNA_VALID_REGEX.search(v):
-            raise ValueError("Invalid DNA sequence")
-        return v.upper()
+    @validator("dna")
+    def valid_chain(cls, v: List[str]) -> List[str]:
+        if len(v) == 0:
+            raise ValueError("Empty DNA sequence")
+
+        max_len = len(v[0])
+        for pos, line in enumerate(v):
+            if DNA_VALID_REGEX.search(line) or len(line) != max_len:
+                raise ValueError("Invalid DNA sequence")
+            v[pos] = line.upper()
+        return v
