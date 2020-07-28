@@ -52,7 +52,7 @@ class DNA(BaseModel):
 
         max_len = len(v[0])
         for pos, line in enumerate(v):
-            if DNA_VALID_REGEX.search(line) or len(line) != max_len:
+            if len(line) != max_len or DNA_VALID_REGEX.search(line):
                 raise ValueError("Invalid DNA sequence")
             v[pos] = line.upper()
         return v
