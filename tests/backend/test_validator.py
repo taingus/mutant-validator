@@ -49,9 +49,35 @@ def test_valid_DNA_sequence_no_mutant(generate_vertical_dna):
     assert is_mutant(generate_vertical_dna(column=0, line=0)) is False
 
 
-def test_valid_DNA_sequence_diagonal_forward(mutant_diagonal_forward_dna):
-    assert is_mutant(mutant_diagonal_forward_dna) is True
+def test_valid_DNA_sequence_diagonal_forward_middle(mutant_diagonal_forward_dna_middle):
+    assert is_mutant(mutant_diagonal_forward_dna_middle) is True
 
 
-def test_valid_DNA_sequence_diagonal_backwards(mutant_diagonal_backward_dna):
-    assert is_mutant(mutant_diagonal_backward_dna) is True
+def test_valid_DNA_sequence_diagonal_forward_middle_up(
+    mutant_diagonal_forward_dna_middle_up,
+):
+    assert is_mutant(mutant_diagonal_forward_dna_middle_up) is True
+
+
+def test_valid_DNA_sequence_diagonal_forward_middle_down(
+    mutant_diagonal_forward_dna_middle_down,
+):
+    assert is_mutant(mutant_diagonal_forward_dna_middle_down) is True
+
+
+def test_valid_DNA_sequence_diagonal_backward_middle(
+    mutant_diagonal_backward_dna_middle,
+):
+    assert is_mutant(mutant_diagonal_backward_dna_middle) is True
+
+
+def test_valid_DNA_sequence_diagonal_backward_middle_up(
+    mutant_diagonal_backward_dna_middle_up,
+):
+    assert is_mutant(mutant_diagonal_backward_dna_middle_up) is True
+
+
+def test_valid_DNA_sequence_diagonal_backward_middle_down(
+    mutant_diagonal_backward_dna_middle_down,
+):
+    assert is_mutant(mutant_diagonal_backward_dna_middle_down) is True

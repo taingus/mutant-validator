@@ -1,4 +1,8 @@
-from typing import List, Callable
+from typing import (
+    Callable,
+    List,
+)
+
 import pytest
 
 
@@ -6,13 +10,13 @@ import pytest
 def generate_vertical_dna(column: int = 1, line: int = 1) -> Callable:
     def _generate(column: int = 1, line: int = 1) -> List[str]:
         dna = [
-            "GTGTGTG",
-            "TCTCTCT",
-            "GTGTGTG",
-            "TCTCTCT",
-            "GTGTGTG",
-            "TCTCTCT",
-            "GTGTGTG",
+            "CGTCGTC",
+            "CGTCGTC",
+            "GTCGTCG",
+            "GTCGTCG",
+            "TCGTCGT",
+            "TCGTCGT",
+            "CGTCGTC",
         ]
         if column == 0 and line == 0:
             return dna
@@ -26,26 +30,78 @@ def generate_vertical_dna(column: int = 1, line: int = 1) -> Callable:
 
 
 @pytest.fixture
-def mutant_diagonal_forward_dna() -> List[str]:
+def mutant_diagonal_forward_dna_middle() -> List[str]:
     return [
-        "GTGTGTG",
-        "TCTCTCT",
-        "GTCTGTG",
-        "TCTCTCT",
-        "GTGTCTG",
-        "TCTCTCT",
-        "GTGTGTG",
+        "CGTCGTC",
+        "CATCGTC",
+        "GTAGTCG",
+        "GTCATCG",
+        "TCGTAGT",
+        "TCGTCGT",
+        "CGTCGTC",
     ]
 
 
 @pytest.fixture
-def mutant_diagonal_backward_dna() -> List[str]:
+def mutant_diagonal_forward_dna_middle_down() -> List[str]:
     return [
-        "GTGTGTG",
-        "TCTCTCT",
-        "GTCTGTG",
-        "TCTCTCT",
-        "CTGTGTG",
-        "TCTCTCT",
-        "GTGTGTG",
+        "CGTCGTC",
+        "CGTCGTC",
+        "GTCGTCG",
+        "ATCGTCG",
+        "TAGTCGT",
+        "TCATCGT",
+        "CGTAGTC",
+    ]
+
+
+@pytest.fixture
+def mutant_diagonal_forward_dna_middle_up() -> List[str]:
+    return [
+        "CGTAGTC",
+        "CGTCATC",
+        "GTCGTAG",
+        "GTCGTCA",
+        "TCGTCGT",
+        "TCGTCGT",
+        "CGTCGTC",
+    ]
+
+
+@pytest.fixture
+def mutant_diagonal_backward_dna_middle() -> List[str]:
+    return [
+        "CGTCGTA",
+        "CGTCGAC",
+        "GTCGACG",
+        "GTCATCG",
+        "TCGTCGT",
+        "TCGTCGT",
+        "CGTCGTC",
+    ]
+
+
+@pytest.fixture
+def mutant_diagonal_backward_dna_middle_up() -> List[str]:
+    return [
+        "CGTAGTC",
+        "CGACGTC",
+        "GACGTCG",
+        "ATCGTCG",
+        "TCGTCGT",
+        "TCGTCGT",
+        "CGTCGTC",
+    ]
+
+
+@pytest.fixture
+def mutant_diagonal_backward_dna_middle_down() -> List[str]:
+    return [
+        "CGTCGTC",
+        "CGTCGTC",
+        "GTCGTCG",
+        "GTCGTCA",
+        "TCGTCAT",
+        "TCGTAGT",
+        "CGTAGTC",
     ]
