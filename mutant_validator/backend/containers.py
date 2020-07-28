@@ -19,16 +19,21 @@ class Node(BaseModel):
     skip_h_check: bool = False
 
     gen_length: int = 4
-    v_len: int = 0
-    h_len: int = 0
 
     def is_mutant(self) -> bool:
-        return any([self._mutant_in_horizontal()])
+        return any(
+            [
+                self._check_line(self.v, self.skip_v_check),
+                self._check_line(self.h, self.skip_h_check),
+                self._check_line(self.f),
+                self._check_line(self.b),
+            ]
+        )
 
-    def _mutant_in_horizontal(self) -> bool:
-        if not self.skip_h_check:
-            for pos in range(0, (self.h_len - 3)):
-                if self.h[pos] == self.h[pos + 1] == self.h[pos + 2] == self.h[pos + 3]:
+    def _check_line(self, line: str, skip: bool = False) -> bool:
+        if not skip:
+            for pos in range(0, (len(line) - (self.gen_length - 1))):
+                if line[pos] == line[pos + 1] == line[pos + 2] == line[pos + 3]:
                     return True
         return False
 
