@@ -49,9 +49,9 @@ def test_valid_DNA_sequence_no_mutant(generate_vertical_dna):
     assert is_mutant(generate_vertical_dna(column=0, line=0)) is False
 
 
-def test_valid_DNA_sequence_diagonal_forward():
-    pass
+def test_valid_DNA_sequence_diagonal_forward(mutant_diagonal_forward_dna):
+    assert is_mutant(mutant_diagonal_forward_dna) is True
 
 
-def test_valid_DNA_sequence_diagonal_backwards():
-    pass
+def test_valid_DNA_sequence_diagonal_backwards(mutant_diagonal_backward_dna):
+    assert is_mutant(mutant_diagonal_backward_dna) is True
