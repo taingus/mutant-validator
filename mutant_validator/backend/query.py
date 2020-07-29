@@ -5,6 +5,10 @@ from typing import (
 )
 
 from databases import Database
+from sqlalchemy import (
+    func,
+    select,
+)
 
 from mutant_validator.backend.models import validated_dna
 
@@ -27,4 +31,8 @@ async def add_validated_dna(
 
 
 async def get_mutant_to_human_stats(database: Database):
-    pass
+    return await database.fetch_all(
+        select([func.count(), validated_dna.c.mutant])
+        .group_by(validated_dna.c.mutant)
+        .select_from(validated_dna)
+    )
