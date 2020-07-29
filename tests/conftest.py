@@ -1,9 +1,43 @@
 from typing import (
     Callable,
+    Generator,
     List,
 )
 
+from databases import Database
+from fastapi.testclient import TestClient
 import pytest
+from sqlalchemy import create_engine
+
+from mutant_validator.backend.database import (
+    get_db,
+    metadata,
+)
+from mutant_validator.main import app
+
+TEST_DATABASE_URL = "sqlite:///mutant_validator/test_db.sqlite3"
+
+db_test = Database(TEST_DATABASE_URL, force_rollback=True)
+engine = create_engine(TEST_DATABASE_URL, connect_args={"check_same_thread": False})
+
+
+def override_get_db() -> Database:
+    return db_test
+
+
+@pytest.fixture()
+def db() -> Generator:
+    metadata.create_all(engine)
+    yield db_test
+    metadata.drop_all(engine)
+
+
+@pytest.fixture()
+def client() -> Generator:
+    metadata.create_all(engine)
+    app.dependency_overrides[get_db] = override_get_db
+    yield TestClient(app)
+    metadata.drop_all(engine)
 
 
 @pytest.fixture
