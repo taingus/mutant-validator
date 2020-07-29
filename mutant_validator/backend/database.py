@@ -15,3 +15,7 @@ engine = sqlalchemy.create_engine(
 def migrate():
     # Acts as a hack for migrations, not scalable
     metadata.create_all(engine)
+
+
+def get_db() -> databases.Database:
+    return database

@@ -1,5 +1,6 @@
-from fastapi.testclient import TestClient
 from fastapi import status
+from fastapi.testclient import TestClient
+
 from mutant_validator.main import app
 
 client = TestClient(app)
