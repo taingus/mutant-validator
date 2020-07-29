@@ -13,6 +13,7 @@ from mutant_validator.backend.database import (
     get_db,
     metadata,
 )
+from mutant_validator.backend.models import validated_dna
 from mutant_validator.main import app
 
 TEST_DATABASE_URL = "sqlite:///mutant_validator/test_db.sqlite3"
@@ -139,3 +140,17 @@ def mutant_diagonal_backward_dna_middle_down() -> List[str]:
         "TCGTAGT",
         "CGTAGTC",
     ]
+
+
+@pytest.fixture
+async def db_mutant(db) -> None:
+    await db.execute(
+        validated_dna.insert().values(sha="sha_mutant", dna="mutant", mutant=True)
+    )
+
+
+@pytest.fixture
+async def db_human(db) -> None:
+    await db.execute(
+        validated_dna.insert().values(sha="sha_human", dna="human", mutant=False)
+    )

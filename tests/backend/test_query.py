@@ -31,8 +31,7 @@ async def test_mutant_to_human_stats_with_empty_data(db):
 
 
 @pytest.mark.asyncio
-async def test_mutant_to_human_stats_with_one_human(db):
-    await add_validated_dna(database=db, dna="human", mutant=False)
+async def test_mutant_to_human_stats_with_one_human(db, db_human):
     result = await get_mutant_to_human_stats(db)
 
     assert result[0][0] == 1
@@ -40,8 +39,7 @@ async def test_mutant_to_human_stats_with_one_human(db):
 
 
 @pytest.mark.asyncio
-async def test_mutant_to_human_stats_with_one_mutant(db):
-    await add_validated_dna(database=db, dna="mutant", mutant=True)
+async def test_mutant_to_human_stats_with_one_mutant(db, db_mutant):
     result = await get_mutant_to_human_stats(db)
 
     assert result[0][0] == 1
@@ -49,9 +47,9 @@ async def test_mutant_to_human_stats_with_one_mutant(db):
 
 
 @pytest.mark.asyncio
-async def test_mutant_to_human_stats_with_one_mutant_and_one_human(db):
-    await add_validated_dna(database=db, dna="mutant", mutant=True)
-    await add_validated_dna(database=db, dna="human", mutant=False)
+async def test_mutant_to_human_stats_with_one_mutant_and_one_human(
+    db, db_mutant, db_human
+):
     result = await get_mutant_to_human_stats(db)
 
     assert result[0][0] == 1
