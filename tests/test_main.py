@@ -14,6 +14,7 @@ TEST_DATABASE_URL = "sqlite:///mutant_validator/test_db.sqlite3"
 db_test = Database(TEST_DATABASE_URL, force_rollback=True)
 engine = create_engine(TEST_DATABASE_URL, connect_args={"check_same_thread": False})
 
+metadata.drop_all(engine)
 metadata.create_all(engine)
 
 
