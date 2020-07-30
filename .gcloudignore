@@ -24,3 +24,4 @@ tags
 .github/
 requirements-dev.txt
 *.sqlite3
+.mypy_cache/
