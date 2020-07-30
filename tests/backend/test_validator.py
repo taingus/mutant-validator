@@ -1,4 +1,5 @@
 import cProfile
+import pstats
 
 import pytest
 
@@ -99,4 +100,4 @@ def test_valid_DNA_sequence_diagonal_backward_middle_down(
 def test_performance_valid_DNA_sequence_human(gigantic_human_dna):
     with cProfile.Profile() as pr:
         assert is_mutant(gigantic_human_dna) is False
-    pr.print_stats()
+    pstats.Stats(pr).sort_stats("cumtime").print_stats()
