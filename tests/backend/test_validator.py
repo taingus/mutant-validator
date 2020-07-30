@@ -1,3 +1,7 @@
+import cProfile
+
+import pytest
+
 from mutant_validator.backend.validator import is_mutant
 
 
@@ -89,3 +93,10 @@ def test_valid_DNA_sequence_diagonal_backward_middle_down(
     mutant_diagonal_backward_dna_middle_down,
 ):
     assert is_mutant(mutant_diagonal_backward_dna_middle_down) is True
+
+
+@pytest.mark.skip("Only for local")
+def test_performance_valid_DNA_sequence_human(gigantic_human_dna):
+    with cProfile.Profile() as pr:
+        assert is_mutant(gigantic_human_dna) is False
+    pr.print_stats()

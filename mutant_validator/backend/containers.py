@@ -8,6 +8,8 @@ from pydantic import (
 
 DNA_VALID_REGEX = re.compile(r"[^ACGT]+?", re.IGNORECASE)
 
+MUTANT_DNA_CHAINS = ["A" * 4, "C" * 4, "T" * 4, "G" * 4]
+
 
 class Node(BaseModel):
     v: str = ""
@@ -31,10 +33,7 @@ class Node(BaseModel):
         )
 
     def _check_line(self, line: str, skip: bool = False) -> bool:
-        return not skip and any(
-            line[pos] == line[pos + 1] == line[pos + 2] == line[pos + 3]
-            for pos in range(0, (len(line) - (self.gen_length - 1)))
-        )
+        return not skip and any(x in line for x in MUTANT_DNA_CHAINS)
 
 
 class DNASequence(str):

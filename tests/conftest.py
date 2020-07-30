@@ -143,6 +143,16 @@ def mutant_diagonal_backward_dna_middle_down() -> List[str]:
 
 
 @pytest.fixture
+def gigantic_human_dna() -> List[str]:
+    return [
+        "CGTCGTC" * 1000,
+        "CGTCGTC" * 1000,
+        "GTCGTCG" * 1000,
+        "GTCGTCG" * 1000,
+    ] * 1000
+
+
+@pytest.fixture
 async def db_mutant(db) -> None:
     await db.execute(
         validated_dna.insert().values(sha="sha_mutant", dna="mutant", mutant=True)

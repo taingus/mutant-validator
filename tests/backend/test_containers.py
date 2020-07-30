@@ -53,70 +53,70 @@ def test_dna_fails_with_empty_sequence():
 
 
 def test_node_with_horizontal_string_too_short():
-    string = "aaa"
+    string = "AAA"
     node = Node(h=string)
 
     assert node.is_mutant() is False
 
 
 def test_node_with_horizontal_string_long_enough_found():
-    string = "aaaa"
+    string = "AAAA"
     node = Node(h=string)
 
     assert node.is_mutant() is True
 
 
 def test_node_with_horizontal_string_found():
-    string = "aagxxxxxxttt"
+    string = "AAGCCCCCCTTT"
     node = Node(h=string)
 
     assert node.is_mutant() is True
 
 
 def test_node_with_horizontal_string_not_found():
-    string = "abcdefghiiikl"
+    string = "ABCDEFGHIIIKL"
     node = Node(h=string)
 
     assert node.is_mutant() is False
 
 
 def test_node_with_vertical_string_found():
-    string = "aagxxxxxxttt"
+    string = "AAGCCCCCCTTT"
     node = Node(h=string)
 
     assert node.is_mutant() is True
 
 
 def test_node_with_vertical_string_not_found():
-    string = "abcdefghiiikl"
+    string = "ABCDEFGHIIIKL"
     node = Node(v=string)
 
     assert node.is_mutant() is False
 
 
 def test_node_with_forward_diagonal_string_found():
-    string = "aagxxxxxxttt"
+    string = "AAGCCCCCCTTT"
     node = Node(f=string)
 
     assert node.is_mutant() is True
 
 
 def test_node_with_forward_diagonal_string_not_found():
-    string = "abcdefghiiikl"
+    string = "ABCDEFGHIIIKL"
     node = Node(f=string)
 
     assert node.is_mutant() is False
 
 
 def test_node_with_backward_diagonal_string_found():
-    string = "aagxxxxxxttt"
+    string = "AAGCCCCCCTTT"
     node = Node(b=string)
 
     assert node.is_mutant() is True
 
 
 def test_node_with_backward_diagonal_string_not_found():
-    string = "abcdefghiiikl"
+    string = "ABCDEFGHIIIKL"
     node = Node(b=string)
 
     assert node.is_mutant() is False
