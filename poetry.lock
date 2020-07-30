@@ -401,11 +401,7 @@ description = "Pure Python MySQL Driver"
 name = "pymysql"
 optional = false
 python-versions = "*"
-version = "0.10.0"
-
-[package.extras]
-ed25519 = ["PyNaCl (>=1.4.0)"]
-rsa = ["cryptography"]
+version = "0.8.1"
 
 [[package]]
 category = "dev"
@@ -638,7 +634,7 @@ python-versions = "*"
 version = "0.3"
 
 [metadata]
-content-hash = "f4472191cc34f25ddab095755bdd90e070216c45b6f6a99bcff9e5935938a34e"
+content-hash = "23c83d34bea1f13109f580ffcb6e1c42320a6e672b0194d7e488597e10b9ef74"
 lock-version = "1.0"
 python-versions = "^3.8"
 
@@ -850,8 +846,8 @@ pygments = [
     {file = "Pygments-2.6.1.tar.gz", hash = "sha256:647344a061c249a3b74e230c739f434d7ea4d8b1d5f3721bc0f3558049b38f44"},
 ]
 pymysql = [
-    {file = "PyMySQL-0.10.0-py2.py3-none-any.whl", hash = "sha256:adef15ceccf1ff544a23a6f46609f65187261dc8b0cf94c9644189c173b0a451"},
-    {file = "PyMySQL-0.10.0.tar.gz", hash = "sha256:e14070bc84e050e0f80bf6063e31d276f03a0bb4d46b9eca2854566c4ae19837"},
+    {file = "PyMySQL-0.8.1-py2.py3-none-any.whl", hash = "sha256:2e77a2a193b1d21d51934c4ca055c88971eb6c6fc6e381b428c081bc14b215f8"},
+    {file = "PyMySQL-0.8.1.tar.gz", hash = "sha256:34e19bfff13e8b2ffc38a68f9ad064609d48f3d46320e8ab8184af527e662629"},
 ]
 pynvim = [
     {file = "pynvim-0.4.1.tar.gz", hash = "sha256:55e918d664654cfa1c9889d3dbe7c63e9f338df5d49471663f78d54c85e84c58"},
