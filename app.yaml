@@ -1,2 +1,4 @@
 runtime: python38
 entrypoint: uvicorn mutant_validator.main:app --port 8080 --host 0.0.0.0
+env_variables:
+  DATABASE_URL: !ENV ${DATABASE_URL}
