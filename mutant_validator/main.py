@@ -6,12 +6,18 @@ from fastapi import (
     status,
 )
 
-from mutant_validator.backend.containers import DNA
+from mutant_validator.backend.containers import (
+    DNA,
+    DNAStats,
+)
 from mutant_validator.backend.database import (
     get_db,
     migrate,
 )
-from mutant_validator.backend.query import add_validated_dna
+from mutant_validator.backend.query import (
+    add_validated_dna,
+    get_mutant_to_human_stats,
+)
 from mutant_validator.backend.validator import is_mutant
 
 app = FastAPI(
@@ -38,4 +44,20 @@ async def validate_mutant_dna(
     mutant = is_mutant(dna)
     response.status_code = status.HTTP_200_OK if mutant else status.HTTP_403_FORBIDDEN
     await add_validated_dna(db, dna=str(dna.dna), mutant=mutant)
+    return response
+
+
+@app.get("/stats", response_model=DNAStats)
+async def get_processed_dna_stats(db: Database = Depends(get_db)):
+    response = DNAStats()
+    result = await get_mutant_to_human_stats(db)
+
+    for count, mutant in result:
+        if mutant is True:
+            response.count_mutant_dna = count
+        else:
+            response.count_human_dna = count
+
+    if response.count_mutant_dna > 0 and response.count_human_dna > 0:
+        response.ratio = response.count_mutant_dna / response.count_human_dna
     return response

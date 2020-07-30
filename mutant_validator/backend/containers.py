@@ -56,3 +56,9 @@ class DNA(BaseModel):
                 raise ValueError("Invalid DNA sequence")
             v[pos] = line.upper()
         return v
+
+
+class DNAStats(BaseModel):
+    count_mutant_dna: int = 0
+    count_human_dna: int = 0
+    ratio: float = 0
