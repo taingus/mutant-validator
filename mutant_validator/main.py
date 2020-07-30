@@ -37,7 +37,10 @@ async def shutdown():
     await get_db().disconnect()
 
 
-@app.post("/mutant")
+@app.post(
+    "/mutant",
+    responses={status.HTTP_403_FORBIDDEN: {"description": "Human not allowed"}},
+)
 async def validate_mutant_dna(
     dna: DNA, response: Response, db: Database = Depends(get_db)
 ):
