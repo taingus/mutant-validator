@@ -101,9 +101,57 @@ Después una subcarpeta `backend` que está separado en:
 - `containers.py`: Acá se definen los contenedores que heredan de los modelos
   base de `pydantic` ya que pueden utilizarse para exportar datos desde un
   modelo de base de datos, o parsear y validar datos que se reciban en la API
+- `models.py`: Define los modelos de base de datos con los que termina
+  interactuando el proyecto.
+- `query.py`: Contiene una definición de queries que devuelven resultados de
+  una base de datos, el definirlas acá permite que sean reutilizadas en otros
+  lugares, y agrupar la lógica de queries en un único lugar.
+- `validator.py`: Es donde está la lógica principal del proyecto, donde se
+  generan los nodos que luego serán validados, pero no guardados en la base
+  de datos.
 
-## Arquitectura
+## Funcionamiento
+
+Desde un punto de vista macro, el funcionamiento de la API de validación de
+ADN es simple:
+
+1. Recibe una petición
+2. Valida que la petición contenga sólo cadenas de ADN válidas y de la misma
+   longitud, ya que es una matriz
+3. Si la petición es válida, controla si existe alguna cadena de ADN mutante.
+   En caso de que el ADN esté mal formado o tenga caracteres inválidos, se
+   responde con un 422.
+4. En caso de ser mutante, prepara una respuesta con un resultado 200, o 403
+   si el ADN es de un humano normal.
+5. Guarda el ADN recibido haciendo un hash sobre lo que se recibió para que
+   no existan repetidos dentro de la base de datos
+6. Devuelve el resultado al usuario
+
+[[Diagrama de flujo]]
+
+Como el flujo general es bastante simple se seguir, a continuación se muestra
+cómo trabaja de forma interna la función `is_mutant` que contiene la mayor
+complejidad:
 
 ## Infraestructura
 
 ## Puntos de mejora
+
+## Documentación de la API
+
+FastAPI provee un sistema de documentación automática de una API cuando las
+funciones están anotadas tanto en los modelos de entrada, salida, y
+queryparams.
+
+Para conseguir esto, se basa en la especificación de OpenAPI disponible en:
+
+`http://localhost:8000/openapi.json`
+
+También se provee una interfaz simple que se puede acceder desde
+
+- `http://localhost:8000/docs` para ver la documentación al estilo Swagger
+- `http://localhost:8000/redoc` para verla como [ReDoc](https://github.com/Redocly/redoc)
+
+Esta documentación también está disponible en producción, en la URL:
+
+https://meli-xmen-agustincignetti.rj.r.appspot.com
