@@ -36,11 +36,6 @@ class Node(BaseModel):
         return not skip and any(x in line for x in MUTANT_DNA_CHAINS)
 
 
-class DNASequence(str):
-    def validate(self) -> bool:
-        return not DNA_VALID_REGEX.search(self)
-
-
 class DNA(BaseModel):
     dna: List[str]
 

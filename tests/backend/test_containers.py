@@ -2,21 +2,8 @@ from pytest import raises
 
 from mutant_validator.backend.containers import (
     DNA,
-    DNASequence,
     Node,
 )
-
-
-def test_DNASequence_with_valid_DNA_sequence():
-    result = DNASequence("AaaAAA")
-
-    assert result.validate() is True
-
-
-def test_DNASequence_fails_with_invalid_DNA_sequence():
-    result = DNASequence("invaliddnasequence")
-
-    assert result.validate() is False
 
 
 def test_dna_with_valid_dna_sequence():

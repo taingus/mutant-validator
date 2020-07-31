@@ -77,7 +77,7 @@ poetry export -f requirements.txt > requirements.txt
 configurados para procesar esos archivosn únicamente. Con un Dockerfile no es
 necesario
 
-### Correr tests e integración continua
+### Tests e integración continua
 
 Si bien las GitHub Actions están configuradas para correr los tests de forma
 automática en cada push a master, los tests pueden correrse de forma local
@@ -86,3 +86,24 @@ con [pytest](https://docs.pytest.org/en/latest/), el comando es:
 ```
 pytest
 ```
+
+## Estructura del proyecto
+
+El proyecto tiene en su raiz dos archivos:
+
+- `main.py`: Es el punto de entrada del proyecto, donde está expuesta la API.
+  Desde este archivo se importa la sección del backend propiamente dicho.
+- `config.py`: Donde se guardan las configuraciones relacionadas al proyecto,
+  que se terminarán sacando desde las variables de entorno
+
+Después una subcarpeta `backend` que está separado en:
+
+- `containers.py`: Acá se definen los contenedores que heredan de los modelos
+  base de `pydantic` ya que pueden utilizarse para exportar datos desde un
+  modelo de base de datos, o parsear y validar datos que se reciban en la API
+
+## Arquitectura
+
+## Infraestructura
+
+## Puntos de mejora
