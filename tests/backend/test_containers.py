@@ -43,67 +43,74 @@ def test_node_with_horizontal_string_too_short():
     string = "AAA"
     node = Node(h=string)
 
-    assert node.is_mutant() is False
+    assert node.count_mutant_genes() == 0
 
 
 def test_node_with_horizontal_string_long_enough_found():
     string = "AAAA"
     node = Node(h=string)
 
-    assert node.is_mutant() is True
+    assert node.count_mutant_genes() == 1
 
 
 def test_node_with_horizontal_string_found():
     string = "AAGCCCCCCTTT"
     node = Node(h=string)
 
-    assert node.is_mutant() is True
+    assert node.count_mutant_genes() == 1
 
 
 def test_node_with_horizontal_string_not_found():
     string = "ABCDEFGHIIIKL"
     node = Node(h=string)
 
-    assert node.is_mutant() is False
+    assert node.count_mutant_genes() == 0
 
 
 def test_node_with_vertical_string_found():
     string = "AAGCCCCCCTTT"
     node = Node(h=string)
 
-    assert node.is_mutant() is True
+    assert node.count_mutant_genes() == 1
 
 
 def test_node_with_vertical_string_not_found():
     string = "ABCDEFGHIIIKL"
     node = Node(v=string)
 
-    assert node.is_mutant() is False
+    assert node.count_mutant_genes() == 0
 
 
 def test_node_with_forward_diagonal_string_found():
     string = "AAGCCCCCCTTT"
     node = Node(f=string)
 
-    assert node.is_mutant() is True
+    assert node.count_mutant_genes() == 1
 
 
 def test_node_with_forward_diagonal_string_not_found():
     string = "ABCDEFGHIIIKL"
     node = Node(f=string)
 
-    assert node.is_mutant() is False
+    assert node.count_mutant_genes() == 0
 
 
 def test_node_with_backward_diagonal_string_found():
     string = "AAGCCCCCCTTT"
     node = Node(b=string)
 
-    assert node.is_mutant() is True
+    assert node.count_mutant_genes() == 1
 
 
 def test_node_with_backward_diagonal_string_not_found():
     string = "ABCDEFGHIIIKL"
     node = Node(b=string)
 
-    assert node.is_mutant() is False
+    assert node.count_mutant_genes() == 0
+
+
+def test_count_mutant_genes():
+    string = "AAGCCCCCCTTT"
+    node = Node(b=string, h=string, f=string, v=string)
+
+    assert node.count_mutant_genes() == 4

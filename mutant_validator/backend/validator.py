@@ -40,9 +40,7 @@ def is_mutant(sequence: Union[List[str], DNA]):
                     )
             node = Node(h=line, f=f_line, b=b_line, skip_v_check=True)
 
-            if node.is_mutant():
-                total_mutant_sequences += 1
-
+            total_mutant_sequences += node.count_mutant_genes()
             if total_mutant_sequences > 1:
                 return True
 
@@ -70,9 +68,7 @@ def is_mutant(sequence: Union[List[str], DNA]):
             v_line = "".join([sequence.dna[x][col] for x in range(0, v_len)])
             node = Node(v=v_line, f=f_line, b=b_line, skip_h_check=True)
 
-            if node.is_mutant():
-                total_mutant_sequences += 1
-
+            total_mutant_sequences += node.count_mutant_genes()
             if total_mutant_sequences > 1:
                 return True
 

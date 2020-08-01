@@ -22,8 +22,8 @@ class Node(BaseModel):
 
     gen_length: int = 4
 
-    def is_mutant(self) -> bool:
-        return any(
+    def count_mutant_genes(self) -> int:
+        return sum(
             (
                 self._check_line(self.v, self.skip_v_check),
                 self._check_line(self.h, self.skip_h_check),
