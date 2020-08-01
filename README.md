@@ -137,7 +137,7 @@ ADN es simple:
 
 ### Funcionamiento `is_mutant`
 
-Como el flujo general es bastante simple se seguir, a continuación se muestra
+Como el flujo general es bastante simple de seguir, a continuación se muestra
 cómo trabaja de forma interna la función `is_mutant` que contiene la mayor
 complejidad:
 
@@ -163,9 +163,9 @@ Una vez evaluados esos nodos, el resultado de las líneas posibles evaluadas
 queda de la siguiente forma. Se alterna entre dos colores para mostrar la
 dirección de la evaluación:
 
-![Nodo vertical inicio](https://raw.githubusercontent.com/taingus/mutant-validator/master/images/nodo-vertical-inicio.png)
-![Nodo vertical medio](https://raw.githubusercontent.com/taingus/mutant-validator/master/images/nodo-vertical-medio.png)
-![Nodo vertical final](https://raw.githubusercontent.com/taingus/mutant-validator/master/images/nodo-vertical-final.png)
+![Resultado horizontal](https://raw.githubusercontent.com/taingus/mutant-validator/master/images/resultado-horizontal.png)
+![Resultado horizontal abajo](https://raw.githubusercontent.com/taingus/mutant-validator/master/images/resultado-horizontal-abajo.png)
+![Resultado horizontal arriba](https://raw.githubusercontent.com/taingus/mutant-validator/master/images/resultado-horizontal-arriba.png)
 
 La siguiente iteración se hace sobre las columnas del ADN de una forma
 similar. Primero se generan objetos `Node` para cada columna, incluyendo las
@@ -174,9 +174,9 @@ diagonales que quedaron afuera en la evaluación anterior.
 
 Una vez mas, ejemplos de la evaluación de las columnas es:
 
-![Resultado horizontal](https://raw.githubusercontent.com/taingus/mutant-validator/master/images/resultado-horizontal.png)
-![Resultado horizontal abajo](https://raw.githubusercontent.com/taingus/mutant-validator/master/images/resultado-horizontal-abajo.png)
-![Resultado horizontal arriba](https://raw.githubusercontent.com/taingus/mutant-validator/master/images/resultado-horizontal-arriba.png)
+![Nodo vertical inicio](https://raw.githubusercontent.com/taingus/mutant-validator/master/images/nodo-vertical-inicio.png)
+![Nodo vertical medio](https://raw.githubusercontent.com/taingus/mutant-validator/master/images/nodo-vertical-medio.png)
+![Nodo vertical final](https://raw.githubusercontent.com/taingus/mutant-validator/master/images/nodo-vertical-final.png)
 
 Una vez evaluados estos nodos finales, el resultado de las columnas posibles
 evaluadas queda de la siguiente forma:
@@ -237,7 +237,7 @@ procesador con más de un único núcleo, ya que en Python estamos restringidos
 por el [GIL](https://wiki.python.org/moin/GlobalInterpreterLock).
 
 Las últimas 3 líneas se incluyeron para mostrar el tiempo que toma evaluar
-cada una de los strings buscando las cadenas de ADN mutante. En el código
+cada uno de los strings buscando las cadenas de ADN mutante. En el código
 [son estas](https://github.com/taingus/mutant-validator/blob/master/mutant_validator/backend/containers.py#L25-L36).
 Esto se debe a que la comparación se realiza en un módulo especializado
 de Python escrito en C.
