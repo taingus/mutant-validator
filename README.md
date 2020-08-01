@@ -163,9 +163,9 @@ Una vez evaluados esos nodos, el resultado de las líneas posibles evaluadas
 queda de la siguiente forma. Se alterna entre dos colores para mostrar la
 dirección de la evaluación:
 
-![Nodo vertical inicio](https://raw.githubusercontent.com/taingus/mutant-validator/master/images/nodo-vetical-inicio.png)
-![Nodo vertical medio](https://raw.githubusercontent.com/taingus/mutant-validator/master/images/nodo-vetical-medio.png)
-![Nodo vertical final](https://raw.githubusercontent.com/taingus/mutant-validator/master/images/nodo-vetical-final.png)
+![Nodo vertical inicio](https://raw.githubusercontent.com/taingus/mutant-validator/master/images/nodo-vertical-inicio.png)
+![Nodo vertical medio](https://raw.githubusercontent.com/taingus/mutant-validator/master/images/nodo-vertical-medio.png)
+![Nodo vertical final](https://raw.githubusercontent.com/taingus/mutant-validator/master/images/nodo-vertical-final.png)
 
 La siguiente iteración se hace sobre las columnas del ADN de una forma
 similar. Primero se generan objetos `Node` para cada columna, incluyendo las
@@ -188,9 +188,21 @@ evaluadas queda de la siguiente forma:
     NOTA: El programa va a cortar la evaluación al primer indicio de que el
     ADN es de un mutante, ya que no es necesario controlar el ADN por completo
 
-## Infraestructura
+## Infraestructura y performance
 
+El proyecto está alojado en una instancia de Google App Engine gratuita, por
+lo que dispone de un único servicio con un único thread. Con esa única
+instancia es capaz de recibir 500 requests por segundo aproximadamente, luego
+de eso empieza a degradarse el servicio.
 
+Además de eso, está conectado a una instancia de Google Cloud SQL también en
+su versión gratuita, por lo que no permite muchas conexiones simultáneas, ni
+un almacenamiento masivo de información, algo que no afecta a este proyecto.
+
+En cuanto a la performance, como se mencionó anteriormente, una prueba de carga
+con datos falsos y aleatorios con matrices de tamaño 50x50, mostró ser capaz
+de soportar hasta 500 peticiones por segundo antes de empezar a fallar al
+estar saturado esperando por la conexión a base de datos.
 
 ## Areas de mejora
 
