@@ -87,6 +87,44 @@ con [pytest](https://docs.pytest.org/en/latest/), el comando es:
 pytest
 ```
 
+### Cobertura de código
+
+Para conocer la cobertura de los tests se puede utlizar el módulo `pytest-cov`
+ya dentro de las dependencias, y ejecutar el comando:
+
+```
+pytest --cov mutant_validator
+```
+
+Lo que genera un archivo `.coverage` e imprime en pantalla un detalle de la
+cobertura. También puede generarse un detalle en HTML con el comando:
+
+```
+pytest --cov mutant_validator --cov-report html
+```
+
+La cobertura actual del proyecto es la siguiente:
+
+```
+------ coverage: platform linux, python 3.8.5-final-0 ------
+Name                                     Stmts   Miss  Cover
+------------------------------------------------------------
+mutant_validator/__init__.py                 1      0   100%
+mutant_validator/backend/__init__.py         0      0   100%
+mutant_validator/backend/containers.py      31      0   100%
+mutant_validator/backend/database.py        10      2    80%
+mutant_validator/backend/models.py           3      0   100%
+mutant_validator/backend/query.py           14      0   100%
+mutant_validator/backend/validator.py       30      0   100%
+mutant_validator/config.py                   5      0   100%
+mutant_validator/main.py                    31      3    90%
+------------------------------------------------------------
+TOTAL                                      125      5    96%
+```
+
+Las líneas que no están cubiertas, son dependencias que sólo se ejecutan como
+hooks al levantarse el servidor, y no durante los tests.
+
 ## Estructura del proyecto
 
 El proyecto tiene en su raiz dos archivos:
