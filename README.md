@@ -186,7 +186,9 @@ evaluadas queda de la siguiente forma:
 ![Resultado vertical atrás](https://raw.githubusercontent.com/taingus/mutant-validator/master/images/resultado-vertical-atras.png)
 
     NOTA: El programa va a cortar la evaluación al primer indicio de que el
-    ADN es de un mutante, ya que no es necesario controlar el ADN por completo
+    ADN es de un mutante, ya que no es necesario controlar el ADN por completo.
+    Un ADN es mutante cuando se encuentra que existe una secuencia de cuatro
+    letras iguales, de forma oblicua, horizontal o vertical.
 
 ## Infraestructura y performance
 
@@ -241,6 +243,22 @@ cada uno de los strings buscando las cadenas de ADN mutante. En el código
 [son estas](https://github.com/taingus/mutant-validator/blob/master/mutant_validator/backend/containers.py#L25-L36).
 Esto se debe a que la comparación se realiza en un módulo especializado
 de Python escrito en C.
+
+### Fallas conocidas
+
+Después de implementar el código, al releer el documento de requerimientos, se
+notó que era necesario que existiera más de una secuencia de cuatro letras
+iguales y sólo se había tomado en cuenta que existiera al menos uno. Se hizo
+una corrección rápida, pero quedó afura una condición que podría llegar a
+suceder: Una doble secuencia de cuatro letras dentro de la misma cadena que
+se formó para ser evaluada por un nodo (Ejemplo: `AAAACGAAAA`).
+
+Otro error que existe es que si hay una secuencia de caracteres en la mitad
+inferior de la matriz, y la misma es lo suficientemente grande en una de las
+dos direcciones (Ejemplo: `15x23`), el algoritmo no va a encontrarlos.
+
+Ambos errores no se arreglaron por falta de tiempo, y el hacerlo tomaría mucho
+mas tiempo del que se disponía al notarlos.
 
 ### Cambios simples que podrían implementarse
 

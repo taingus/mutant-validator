@@ -16,6 +16,8 @@ def is_mutant(sequence: Union[List[str], DNA]):
     v_len = len(sequence.dna)
     h_len = len(sequence.dna[0])
 
+    total_mutant_sequences = 0
+
     if h_len > 3:
         for pos, line in enumerate(sequence.dna):
             f_line = ""
@@ -28,16 +30,20 @@ def is_mutant(sequence: Union[List[str], DNA]):
                         if pos + x < h_len and pos + x < v_len
                     ]
                 )
-                b_line = "".join(
-                    [
-                        sequence.dna[pos + x][v_len - 1 - x]
-                        for x in range(0, v_len - pos)
-                        if h_len > x and v_len > x
-                    ]
-                )
-            node = Node(h=line, f=f_line, b=b_line)
+                if pos > 2:
+                    b_line = "".join(
+                        [
+                            sequence.dna[pos + x][v_len - 1 - x]
+                            for x in range(0, v_len - pos)
+                            if pos + x < h_len and pos + x < v_len
+                        ]
+                    )
+            node = Node(h=line, f=f_line, b=b_line, skip_v_check=True)
 
             if node.is_mutant():
+                total_mutant_sequences += 1
+
+            if total_mutant_sequences > 1:
                 return True
 
     if v_len > 3:
@@ -52,18 +58,22 @@ def is_mutant(sequence: Union[List[str], DNA]):
                         if col + x < h_len and col + x < v_len
                     ]
                 )
-                b_line = "".join(
-                    [
-                        sequence.dna[x][col - x]
-                        for x in range(0, h_len - col)
-                        if h_len - x >= 0 and v_len - x >= 0 and col - x >= 0
-                    ]
-                )
+                if col > 2:
+                    b_line = "".join(
+                        [
+                            sequence.dna[x][col - x]
+                            for x in range(0, col + 1)
+                            if h_len - x >= 0 and v_len - x >= 0 and col - x >= 0
+                        ]
+                    )
 
             v_line = "".join([sequence.dna[x][col] for x in range(0, v_len)])
-            node = Node(v=v_line, f=f_line, b=b_line)
+            node = Node(v=v_line, f=f_line, b=b_line, skip_h_check=True)
 
             if node.is_mutant():
+                total_mutant_sequences += 1
+
+            if total_mutant_sequences > 1:
                 return True
 
     return False

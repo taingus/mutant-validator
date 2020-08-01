@@ -7,23 +7,23 @@ from mutant_validator.backend.validator import is_mutant
 
 
 def test_valid_DNA_sequence_horizontal_first_occurence():
-    assert is_mutant(["AAAATGA"]) is True
+    assert is_mutant(["AAAATGA", "AAAAAAA"]) is True
 
 
 def test_valid_DNA_sequence_horizontal_second_occurence():
-    assert is_mutant(["TAAAAGA"]) is True
+    assert is_mutant(["TAAAAGA", "AAAAAAA"]) is True
 
 
 def test_valid_DNA_sequence_horizontal_third_occurence():
-    assert is_mutant(["TGAAAAA"]) is True
+    assert is_mutant(["TGAAAAA", "AAAAAAA"]) is True
 
 
 def test_valid_DNA_sequence_horizontal_fourth_occurence():
-    assert is_mutant(["TGTAAAA"]) is True
+    assert is_mutant(["TGTAAAA", "AAAAAAA"]) is True
 
 
 def test_valid_DNA_sequence_horizontal_not_mutant():
-    assert is_mutant(["TGTAAAT"]) is False
+    assert is_mutant(["TGTAAAT", "AAAAAAA"]) is False
 
 
 def test_valid_DNA_sequence_horizontal_too_short():
@@ -31,7 +31,7 @@ def test_valid_DNA_sequence_horizontal_too_short():
 
 
 def test_valid_DNA_sequence_horizontal_long_enough():
-    assert is_mutant(["TTTT"]) is True
+    assert is_mutant(["TTTT", "AAAA"]) is True
 
 
 def test_valid_DNA_sequence_vertical_first_column(generate_vertical_dna):
@@ -94,6 +94,18 @@ def test_valid_DNA_sequence_diagonal_backward_middle_down(
     mutant_diagonal_backward_dna_middle_down,
 ):
     assert is_mutant(mutant_diagonal_backward_dna_middle_down) is True
+
+
+def test_valid_DNA_sequence_diagonal_backward_middle_small_vertical(
+    mutant_diagonal_backward_dna_middle_small_vertical,
+):
+    assert is_mutant(mutant_diagonal_backward_dna_middle_small_vertical) is True
+
+
+def test_valid_DNA_sequence_diagonal_backward_middle_small_horizontal(
+    mutant_diagonal_backward_dna_middle_small_horizontal,
+):
+    assert is_mutant(mutant_diagonal_backward_dna_middle_small_horizontal) is True
 
 
 @pytest.mark.skip("Only for local")

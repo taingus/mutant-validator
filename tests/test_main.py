@@ -2,7 +2,7 @@ from fastapi import status
 
 
 def test_validate_mutant_dna_ok_response(client):
-    response = client.post("/mutant", json={"dna": ["AAAA"]})
+    response = client.post("/mutant", json={"dna": ["AAAA", "TTTT"]})
 
     assert response.status_code == status.HTTP_200_OK
 
