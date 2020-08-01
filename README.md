@@ -127,7 +127,15 @@ ADN es simple:
    no existan repetidos dentro de la base de datos
 6. Devuelve el resultado al usuario
 
-[[Diagrama de flujo]]
+#### Diagrama de secuencia
+
+![Diagrama de secuencia](https://raw.githubusercontent.com/taingus/mutant-validator/master/images/diagrama-secuencia.png)
+
+#### Diagrama de flujo
+
+![Diagrama de secuencia](https://raw.githubusercontent.com/taingus/mutant-validator/master/images/diagrama-flujo.png)
+
+### Funcionamiento `is_mutant`
 
 Como el flujo general es bastante simple se seguir, a continuación se muestra
 cómo trabaja de forma interna la función `is_mutant` que contiene la mayor
@@ -135,23 +143,7 @@ complejidad:
 
 Suponiendo que recibimos un ADN de la siguiente forma:
 
-```
-+---+---+---+---+---+
-| A | C | G | T | A |
-+---+---+---+---+---+
-| C | A | T | G | C |
-+---+---+---+---+---+
-| G | T | A | C | G |
-+---+---+---+---+---+
-| A | T | C | G | T |
-+---+---+---+---+---+
-| A | C | G | G | A |
-+---+---+---+---+---+
-| G | A | T | C | C |
-+---+---+---+---+---+
-| A | C | T | T | G |
-+---+---+---+---+---+
-```
+![Cuadrícula](https://raw.githubusercontent.com/taingus/mutant-validator/master/images/cuadricula.png)
 
 La función va a generar un objeto [Node](https://github.com/taingus/mutant-validator/blob/master/mutant_validator/backend/containers.py#L14)
 por cada línea horizontal, y va a agregar además, siempre que la longitud
@@ -160,18 +152,20 @@ arriba. ese objeto nodo, una vez creado, va a evaluar si en alguna de esas
 una a tres líneas contiene alguna de las cadenas que delatan que el ADN es en
 realidad el de un mutante.
 
-Por ejemplo, estos son nodos horizontales
+Por ejemplo, estos son nodos horizontales. En rojo está marcando desde dónde
+inicia:
 
-[[Imagen de Node de ejemplo primer línea]]
-[[Imagen de Node de ejemplo línea intermedia]]
-[[Imagen de Node de ejemplo última línea]]
+![Nodo horizontal arriba](https://raw.githubusercontent.com/taingus/mutant-validator/master/images/nodo-horizontal-arriba.png)
+![Nodo horizontal medio](https://raw.githubusercontent.com/taingus/mutant-validator/master/images/nodo-horizontal-medio.png)
+![Nodo horizontal final](https://raw.githubusercontent.com/taingus/mutant-validator/master/images/nodo-horizontal-final.png)
 
-Una vez evaluados esos nodos, El resultado de las líneas posibles evaluadas
-queda de la siguiente forma:
+Una vez evaluados esos nodos, el resultado de las líneas posibles evaluadas
+queda de la siguiente forma. Se alterna entre dos colores para mostrar la
+dirección de la evaluación:
 
-[[Imagen ADN líneas horizontales]]
-[[Imagen ADN líneas diagonales hacia arriba]]
-[[Imagen ADN líneas diagonales hacia abajo]]
+![Nodo vertical inicio](https://raw.githubusercontent.com/taingus/mutant-validator/master/images/nodo-vetical-inicio.png)
+![Nodo vertical medio](https://raw.githubusercontent.com/taingus/mutant-validator/master/images/nodo-vetical-medio.png)
+![Nodo vertical final](https://raw.githubusercontent.com/taingus/mutant-validator/master/images/nodo-vetical-final.png)
 
 La siguiente iteración se hace sobre las columnas del ADN de una forma
 similar. Primero se generan objetos `Node` para cada columna, incluyendo las
@@ -180,16 +174,16 @@ diagonales que quedaron afuera en la evaluación anterior.
 
 Una vez mas, ejemplos de la evaluación de las columnas es:
 
-[[Imagen de Node de ejemplo primer línea]]
-[[Imagen de Node de ejemplo línea intermedia]]
-[[Imagen de Node de ejemplo última línea]]
+![Resultado horizontal](https://raw.githubusercontent.com/taingus/mutant-validator/master/images/resultado-horizontal.png)
+![Resultado horizontal abajo](https://raw.githubusercontent.com/taingus/mutant-validator/master/images/resultado-horizontal-abajo.png)
+![Resultado horizontal arriba](https://raw.githubusercontent.com/taingus/mutant-validator/master/images/resultado-horizontal-arriba.png)
 
 Una vez evaluados estos nodos finales, el resultado de las columnas posibles
 evaluadas queda de la siguiente forma:
 
-[[Imagen ADN líneas horizontales]]
-[[Imagen ADN líneas diagonales hacia arriba]]
-[[Imagen ADN líneas diagonales hacia abajo]]
+![Resultado vertical](https://raw.githubusercontent.com/taingus/mutant-validator/master/images/resultado-vertical.png)
+![Resultado vertical adelante](https://raw.githubusercontent.com/taingus/mutant-validator/master/images/resultado-vertical-adelante.png)
+![Resultado vertical atrás](https://raw.githubusercontent.com/taingus/mutant-validator/master/images/resultado-vertical-atras.png)
 
     NOTA: El programa va a cortar la evaluación al primer indicio de que el
     ADN es de un mutante, ya que no es necesario controlar el ADN por completo
@@ -256,7 +250,7 @@ Para conseguir esto, se basa en la especificación de OpenAPI disponible en:
 
 También se provee una interfaz autogenerada que se puede acceder desde
 
-- `http://localhost:8000/docs`: Documentación al estilo [SwaggerUI](https://github.com/swagger-api/swagger-ui)
+- `http://localhost:8000/docs`: Documentación al estilo [Swagger](https://github.com/swagger-api/swagger-ui)
 - `http://localhost:8000/redoc`: Documentación al estilo [ReDoc](https://github.com/Redocly/redoc)
 
 ## Endpoints
@@ -265,6 +259,6 @@ También se provee una interfaz autogenerada que se puede acceder desde
 
 ### Documentación
 
-- [SwaggerUi](https://meli-xmen-agustincignetti.rj.r.appspot.com/docs)
+- [Swagger](https://meli-xmen-agustincignetti.rj.r.appspot.com/docs)
 - [ReDoc](https://meli-xmen-agustincignetti.rj.r.appspot.com/redoc)
 - [OpenAPI schema](https://meli-xmen-agustincignetti.rj.r.appspot.com/openapi.json)
