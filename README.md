@@ -133,9 +133,116 @@ Como el flujo general es bastante simple se seguir, a continuación se muestra
 cómo trabaja de forma interna la función `is_mutant` que contiene la mayor
 complejidad:
 
+Suponiendo que recibimos un ADN de la siguiente forma:
+
+```
++---+---+---+---+---+
+| A | C | G | T | A |
++---+---+---+---+---+
+| C | A | T | G | C |
++---+---+---+---+---+
+| G | T | A | C | G |
++---+---+---+---+---+
+| A | T | C | G | T |
++---+---+---+---+---+
+| A | C | G | G | A |
++---+---+---+---+---+
+| G | A | T | C | C |
++---+---+---+---+---+
+| A | C | T | T | G |
++---+---+---+---+---+
+```
+
+La función va a generar un objeto [Node](https://github.com/taingus/mutant-validator/blob/master/mutant_validator/backend/containers.py#L14)
+por cada línea horizontal, y va a agregar además, siempre que la longitud
+vertical lo permita, dos líneas diagonales, una hacia abajo, y otra hacia
+arriba. ese objeto nodo, una vez creado, va a evaluar si en alguna de esas
+una a tres líneas contiene alguna de las cadenas que delatan que el ADN es en
+realidad el de un mutante.
+
+Por ejemplo, estos son nodos horizontales
+
+[[Imagen de Node de ejemplo primer línea]]
+[[Imagen de Node de ejemplo línea intermedia]]
+[[Imagen de Node de ejemplo última línea]]
+
+Una vez evaluados esos nodos, El resultado de las líneas posibles evaluadas
+queda de la siguiente forma:
+
+[[Imagen ADN líneas horizontales]]
+[[Imagen ADN líneas diagonales hacia arriba]]
+[[Imagen ADN líneas diagonales hacia abajo]]
+
+La siguiente iteración se hace sobre las columnas del ADN de una forma
+similar. Primero se generan objetos `Node` para cada columna, incluyendo las
+líneas diagonales hacia atrás y adelante, para evaluar el resto de las
+diagonales que quedaron afuera en la evaluación anterior.
+
+Una vez mas, ejemplos de la evaluación de las columnas es:
+
+[[Imagen de Node de ejemplo primer línea]]
+[[Imagen de Node de ejemplo línea intermedia]]
+[[Imagen de Node de ejemplo última línea]]
+
+Una vez evaluados estos nodos finales, el resultado de las columnas posibles
+evaluadas queda de la siguiente forma:
+
+[[Imagen ADN líneas horizontales]]
+[[Imagen ADN líneas diagonales hacia arriba]]
+[[Imagen ADN líneas diagonales hacia abajo]]
+
+    NOTA: El programa va a cortar la evaluación al primer indicio de que el
+    ADN es de un mutante, ya que no es necesario controlar el ADN por completo
+
 ## Infraestructura
 
-## Puntos de mejora
+
+
+## Areas de mejora
+
+Al correr el test de performance con un ADN de 7000 x 4000 de un humano no
+mutante, el tiempo de ejecución muestra lo siguiente:
+
+```
+tests/backend/test_validator.py::test_performance_valid_DNA_sequence_human
+
+   Ordered by: cumulative time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+     7000    5.552    0.001    5.552    0.001 /mutant_validator/backend/validator.py:56(<listcomp>)
+     7000    3.945    0.001    3.945    0.001 /mutant_validator/backend/validator.py:49(<listcomp>)
+     7000    3.394    0.000    3.394    0.000 /mutant_validator/backend/validator.py:63(<listcomp>)
+     4000    2.089    0.001    2.089    0.001 /mutant_validator/backend/validator.py:32(<listcomp>)
+     4000    2.013    0.001    2.013    0.001 /mutant_validator/backend/validator.py:25(<listcomp>)
+     .
+     .
+    11000    0.024    0.000    0.461    0.000 /mutant_validator/backend/containers.py:25(is_mutant)
+    44000    0.029    0.000    0.434    0.000 /mutant_validator/backend/containers.py:35(_check_line)
+   220000    0.365    0.000    0.365    0.000 /mutant_validator/backend/containers.py:36(<genexpr>)
+```
+
+    NOTA: Se omitió el resto porque el tiempo era de librerías y no representaban
+    un valor significativo
+
+Como se ve, donde más tiempo pasa el proceso es en los generadores de strings
+que luego serán usados para controlar si el ADN es de un mutante, esa es el
+área donde más podría optimizarse el código si se tuviera a disposición un
+procesador con más de un único núcleo, ya que en Python estamos restringidos
+por el [GIL](https://wiki.python.org/moin/GlobalInterpreterLock).
+
+Las últimas 3 líneas se incluyeron para mostrar el tiempo que toma evaluar
+cada una de los strings buscando las cadenas de ADN mutante. En el código
+[son estas](https://github.com/taingus/mutant-validator/blob/master/mutant_validator/backend/containers.py#L25-L36).
+Esto se debe a que la comparación se realiza en un módulo especializado
+de Python escrito en C.
+
+### Cambios simples que podrían implementarse
+
+Uno de los cambios que implica no tocar el código, es cambiar el intérprete
+de Python por PyPy.
+
+Otra posible mejora es convertir la API en asíncrona, devolviendo una URL
+donde buscar el resultado, pero esto alteraría el funcionamiento esperado.
 
 ## Documentación de la API
 
@@ -147,11 +254,17 @@ Para conseguir esto, se basa en la especificación de OpenAPI disponible en:
 
 `http://localhost:8000/openapi.json`
 
-También se provee una interfaz simple que se puede acceder desde
+También se provee una interfaz autogenerada que se puede acceder desde
 
-- `http://localhost:8000/docs` para ver la documentación al estilo Swagger
-- `http://localhost:8000/redoc` para verla como [ReDoc](https://github.com/Redocly/redoc)
+- `http://localhost:8000/docs`: Documentación al estilo [SwaggerUI](https://github.com/swagger-api/swagger-ui)
+- `http://localhost:8000/redoc`: Documentación al estilo [ReDoc](https://github.com/Redocly/redoc)
 
-Esta documentación también está disponible en producción, en la URL:
+## Endpoints
 
-https://meli-xmen-agustincignetti.rj.r.appspot.com
+- [API](https://meli-xmen-agustincignetti.rj.r.appspot.com/)
+
+### Documentación
+
+- [SwaggerUi](https://meli-xmen-agustincignetti.rj.r.appspot.com/docs)
+- [ReDoc](https://meli-xmen-agustincignetti.rj.r.appspot.com/redoc)
+- [OpenAPI schema](https://meli-xmen-agustincignetti.rj.r.appspot.com/openapi.json)
