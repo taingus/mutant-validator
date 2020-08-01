@@ -7,7 +7,7 @@ para la capa de API, [pydantic](https://pydantic-docs.helpmanual.io/) para
 validación del request y documentación, y [uvicorn](https://www.uvicorn.org/)
 para manejar las peticiones al servidor, ya que FastAPI no ofrece eso.
 
-uvicorn es la versisón asíncrona de [gunicorn](https://gunicorn.org/), lo que
+uvicorn es la versión asíncrona de [gunicorn](https://gunicorn.org/), lo que
 permite utilizar las palabras reservadas `async` y `await` disponibles a partir
 de python 3.6.
 
@@ -74,7 +74,7 @@ poetry export -f requirements.txt > requirements.txt
 ```
 
 ¿Por qué dos archivos requirements? Porque algunos proveedores de PaaS están
-configurados para procesar esos archivosn únicamente. Con un Dockerfile no es
+configurados para procesar esos archivos únicamente. Con un Dockerfile no es
 necesario
 
 ### Tests e integración continua
